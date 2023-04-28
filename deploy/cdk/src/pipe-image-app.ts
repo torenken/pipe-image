@@ -1,23 +1,11 @@
-import { App, Stack, StackProps } from 'aws-cdk-lib';
-import { Construct } from 'constructs';
-
-export class MyStack extends Stack {
-  constructor(scope: Construct, id: string, props: StackProps = {}) {
-    super(scope, id, props);
-
-    // define resources here...
-  }
-}
-
-// for development, use account/region from cdk cli
-const devEnv = {
-  account: process.env.CDK_DEFAULT_ACCOUNT,
-  region: process.env.CDK_DEFAULT_REGION,
-};
+import { App, Tags } from 'aws-cdk-lib';
+import { PipeImagePipelineStack } from './pipe-image-pipeline-stack';
 
 const app = new App();
 
-new MyStack(app, 'pipe-image-dev', { env: devEnv });
-// new MyStack(app, 'pipe-image-prod', { env: prodEnv });
+Tags.of(app).add('domain', 'pipe-image');
+Tags.of(app).add('owner', 'torenken');
+
+new PipeImagePipelineStack(app, 'PipeImagePipelineStack', {});
 
 app.synth();
