@@ -139,6 +139,63 @@ Object {
             "Actions": Array [
               Object {
                 "ActionTypeId": Object {
+                  "Category": "Build",
+                  "Owner": "AWS",
+                  "Provider": "CodeBuild",
+                  "Version": "1",
+                },
+                "Configuration": Object {
+                  "ProjectName": Object {
+                    "Ref": "PipeImagePipelineAssetsFileAsset16BB85374",
+                  },
+                },
+                "InputArtifacts": Array [
+                  Object {
+                    "Name": "Synth_Output",
+                  },
+                ],
+                "Name": "FileAsset1",
+                "RoleArn": Object {
+                  "Fn::GetAtt": Array [
+                    "PipeImagePipelineCodeBuildActionRole3A5DEF77",
+                    "Arn",
+                  ],
+                },
+                "RunOrder": 1,
+              },
+              Object {
+                "ActionTypeId": Object {
+                  "Category": "Build",
+                  "Owner": "AWS",
+                  "Provider": "CodeBuild",
+                  "Version": "1",
+                },
+                "Configuration": Object {
+                  "ProjectName": Object {
+                    "Ref": "PipeImagePipelineAssetsFileAsset222280142",
+                  },
+                },
+                "InputArtifacts": Array [
+                  Object {
+                    "Name": "Synth_Output",
+                  },
+                ],
+                "Name": "FileAsset2",
+                "RoleArn": Object {
+                  "Fn::GetAtt": Array [
+                    "PipeImagePipelineCodeBuildActionRole3A5DEF77",
+                    "Arn",
+                  ],
+                },
+                "RunOrder": 1,
+              },
+            ],
+            "Name": "Assets",
+          },
+          Object {
+            "Actions": Array [
+              Object {
+                "ActionTypeId": Object {
                   "Category": "Deploy",
                   "Owner": "AWS",
                   "Provider": "CloudFormation",
@@ -373,6 +430,368 @@ Object {
         },
       },
       "Type": "AWS::S3::BucketPolicy",
+    },
+    "PipeImagePipelineAssetsFileAsset16BB85374": Object {
+      "Properties": Object {
+        "Artifacts": Object {
+          "Type": "CODEPIPELINE",
+        },
+        "Cache": Object {
+          "Type": "NO_CACHE",
+        },
+        "Description": "Pipeline step PipeImagePipelineStack/Pipeline/Assets/FileAsset1",
+        "EncryptionKey": "alias/aws/s3",
+        "Environment": Object {
+          "ComputeType": "BUILD_GENERAL1_SMALL",
+          "Image": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    4,
+                    Object {
+                      "Fn::Split": Array [
+                        ":",
+                        Object {
+                          "Fn::GetAtt": Array [
+                            "ContainerImageRepo25F05A71",
+                            "Arn",
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+                ".dkr.ecr.",
+                Object {
+                  "Fn::Select": Array [
+                    3,
+                    Object {
+                      "Fn::Split": Array [
+                        ":",
+                        Object {
+                          "Fn::GetAtt": Array [
+                            "ContainerImageRepo25F05A71",
+                            "Arn",
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+                ".",
+                Object {
+                  "Ref": "AWS::URLSuffix",
+                },
+                "/",
+                Object {
+                  "Ref": "ContainerImageRepo25F05A71",
+                },
+                ":latest",
+              ],
+            ],
+          },
+          "ImagePullCredentialsType": "SERVICE_ROLE",
+          "PrivilegedMode": false,
+          "Type": "LINUX_CONTAINER",
+        },
+        "ServiceRole": Object {
+          "Fn::GetAtt": Array [
+            "PipeImagePipelineAssetsFileRole9105BDE6",
+            "Arn",
+          ],
+        },
+        "Source": Object {
+          "BuildSpec": "{
+  \\"version\\": \\"0.2\\",
+  \\"phases\\": {
+    \\"install\\": {
+      \\"commands\\": [
+        \\"npm install -g cdk-assets@2\\"
+      ]
+    },
+    \\"build\\": {
+      \\"commands\\": [
+        \\"cdk-assets --path \\\\\\"assembly-PipeImagePipelineStack-Dev/PipeImagePipelineStackDevPipeImageStack889EA900.assets.json\\\\\\" --verbose publish \\\\\\"54a8591500498529769aaab77cfd64f5806ce6c8566624682373e737c622f5e3:current_account-current_region\\\\\\"\\"
+      ]
+    }
+  }
+}",
+          "Type": "CODEPIPELINE",
+        },
+      },
+      "Type": "AWS::CodeBuild::Project",
+    },
+    "PipeImagePipelineAssetsFileAsset222280142": Object {
+      "Properties": Object {
+        "Artifacts": Object {
+          "Type": "CODEPIPELINE",
+        },
+        "Cache": Object {
+          "Type": "NO_CACHE",
+        },
+        "Description": "Pipeline step PipeImagePipelineStack/Pipeline/Assets/FileAsset2",
+        "EncryptionKey": "alias/aws/s3",
+        "Environment": Object {
+          "ComputeType": "BUILD_GENERAL1_SMALL",
+          "Image": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    4,
+                    Object {
+                      "Fn::Split": Array [
+                        ":",
+                        Object {
+                          "Fn::GetAtt": Array [
+                            "ContainerImageRepo25F05A71",
+                            "Arn",
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+                ".dkr.ecr.",
+                Object {
+                  "Fn::Select": Array [
+                    3,
+                    Object {
+                      "Fn::Split": Array [
+                        ":",
+                        Object {
+                          "Fn::GetAtt": Array [
+                            "ContainerImageRepo25F05A71",
+                            "Arn",
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+                ".",
+                Object {
+                  "Ref": "AWS::URLSuffix",
+                },
+                "/",
+                Object {
+                  "Ref": "ContainerImageRepo25F05A71",
+                },
+                ":latest",
+              ],
+            ],
+          },
+          "ImagePullCredentialsType": "SERVICE_ROLE",
+          "PrivilegedMode": false,
+          "Type": "LINUX_CONTAINER",
+        },
+        "ServiceRole": Object {
+          "Fn::GetAtt": Array [
+            "PipeImagePipelineAssetsFileRole9105BDE6",
+            "Arn",
+          ],
+        },
+        "Source": Object {
+          "BuildSpec": "{
+  \\"version\\": \\"0.2\\",
+  \\"phases\\": {
+    \\"install\\": {
+      \\"commands\\": [
+        \\"npm install -g cdk-assets@2\\"
+      ]
+    },
+    \\"build\\": {
+      \\"commands\\": [
+        \\"cdk-assets --path \\\\\\"assembly-PipeImagePipelineStack-Dev/PipeImagePipelineStackDevPipeImageStack889EA900.assets.json\\\\\\" --verbose publish \\\\\\"f5b6a6d08a8206e67d0b54e2a29abd7e0472d835abc71037de3a93545b5edacc:current_account-current_region\\\\\\"\\"
+      ]
+    }
+  }
+}",
+          "Type": "CODEPIPELINE",
+        },
+      },
+      "Type": "AWS::CodeBuild::Project",
+    },
+    "PipeImagePipelineAssetsFileRole9105BDE6": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "codebuild.amazonaws.com",
+              },
+            },
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "AWS": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":root",
+                    ],
+                  ],
+                },
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "PipeImagePipelineAssetsFileRoleDefaultPolicy2D6DE532": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":logs:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":log-group:/aws/codebuild/*",
+                  ],
+                ],
+              },
+            },
+            Object {
+              "Action": Array [
+                "codebuild:CreateReportGroup",
+                "codebuild:CreateReport",
+                "codebuild:UpdateReport",
+                "codebuild:BatchPutTestCases",
+                "codebuild:BatchPutCodeCoverages",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":codebuild:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":report-group/*",
+                  ],
+                ],
+              },
+            },
+            Object {
+              "Action": Array [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Sub": "arn:\${AWS::Partition}:iam::\${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-\${AWS::AccountId}-\${AWS::Region}",
+              },
+            },
+            Object {
+              "Action": Array [
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "ContainerImageRepo25F05A71",
+                  "Arn",
+                ],
+              },
+            },
+            Object {
+              "Action": "ecr:GetAuthorizationToken",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": Array [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "PipeImagePipelineArtifactsBucket6E9494A2",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "PipeImagePipelineArtifactsBucket6E9494A2",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "PipeImagePipelineAssetsFileRoleDefaultPolicy2D6DE532",
+        "Roles": Array [
+          Object {
+            "Ref": "PipeImagePipelineAssetsFileRole9105BDE6",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
     },
     "PipeImagePipelineBuildSynthCdkBuildProjectDACC630B": Object {
       "Properties": Object {
@@ -697,6 +1116,34 @@ Object {
               "Resource": Object {
                 "Fn::GetAtt": Array [
                   "PipeImagePipelineUpdatePipelineSelfMutationB9B08728",
+                  "Arn",
+                ],
+              },
+            },
+            Object {
+              "Action": Array [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "PipeImagePipelineAssetsFileAsset16BB85374",
+                  "Arn",
+                ],
+              },
+            },
+            Object {
+              "Action": Array [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "PipeImagePipelineAssetsFileAsset222280142",
                   "Arn",
                 ],
               },
