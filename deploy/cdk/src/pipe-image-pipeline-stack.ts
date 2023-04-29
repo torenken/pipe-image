@@ -15,6 +15,7 @@ export class PipeImagePipelineStack extends Stack {
     });
 
     const pipeline = new CodePipeline(this, 'PipeImagePipeline', {
+      dockerEnabledForSynth: true,
       pipelineName: 'PipeImagePipeline',
       crossAccountKeys: false,
 
