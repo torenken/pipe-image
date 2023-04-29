@@ -10,6 +10,14 @@ Object {
     },
   },
   "Resources": Object {
+    "ContainerImageRepo25F05A71": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "RepositoryName": "custom-codebuild-image-2",
+      },
+      "Type": "AWS::ECR::Repository",
+      "UpdateReplacePolicy": "Retain",
+    },
     "PipeImagePipeline74F2FC03": Object {
       "DependsOn": Array [
         "PipeImagePipelineRoleDefaultPolicy8B68A281",
@@ -68,7 +76,7 @@ Object {
                   "Version": "1",
                 },
                 "Configuration": Object {
-                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"3921907cfc6e50ae9bb9a7a041cbcd25e46f2f618fe68ae25971097bdb0e3ab9\\"}]",
+                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"c6df283e1b726d5398325a398a433d821f46efe10fa198a801d90a542440f6f7\\"}]",
                   "ProjectName": Object {
                     "Ref": "PipeImagePipelineBuildSynthCdkBuildProjectDACC630B",
                   },
@@ -105,7 +113,7 @@ Object {
                   "Version": "1",
                 },
                 "Configuration": Object {
-                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"a8fecbaeb28af4f58cac4409b9b1a1dd5beb9a7de11c4c68389c8f00cf5855ab\\"}]",
+                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"bd7bea86662e015c59ea0a0daaa988a8f5d2ffb3104a0bb6c5a532ab97fa6b05\\"}]",
                   "ProjectName": Object {
                     "Ref": "PipeImagePipelineUpdatePipelineSelfMutationB9B08728",
                   },
@@ -126,6 +134,117 @@ Object {
               },
             ],
             "Name": "UpdatePipeline",
+          },
+          Object {
+            "Actions": Array [
+              Object {
+                "ActionTypeId": Object {
+                  "Category": "Deploy",
+                  "Owner": "AWS",
+                  "Provider": "CloudFormation",
+                  "Version": "1",
+                },
+                "Configuration": Object {
+                  "ActionMode": "CHANGE_SET_REPLACE",
+                  "Capabilities": "CAPABILITY_NAMED_IAM,CAPABILITY_AUTO_EXPAND",
+                  "ChangeSetName": "PipelineChange",
+                  "RoleArn": Object {
+                    "Fn::Join": Array [
+                      "",
+                      Array [
+                        "arn:",
+                        Object {
+                          "Ref": "AWS::Partition",
+                        },
+                        ":iam::",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        ":role/cdk-hnb659fds-cfn-exec-role-",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        "-",
+                        Object {
+                          "Ref": "AWS::Region",
+                        },
+                      ],
+                    ],
+                  },
+                  "StackName": "Dev-PipeImageStack",
+                  "TemplatePath": "Synth_Output::assembly-PipeImagePipelineStack-Dev/PipeImagePipelineStackDevPipeImageStack889EA900.template.json",
+                },
+                "InputArtifacts": Array [
+                  Object {
+                    "Name": "Synth_Output",
+                  },
+                ],
+                "Name": "Prepare",
+                "RoleArn": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
+                    ],
+                  ],
+                },
+                "RunOrder": 1,
+              },
+              Object {
+                "ActionTypeId": Object {
+                  "Category": "Deploy",
+                  "Owner": "AWS",
+                  "Provider": "CloudFormation",
+                  "Version": "1",
+                },
+                "Configuration": Object {
+                  "ActionMode": "CHANGE_SET_EXECUTE",
+                  "ChangeSetName": "PipelineChange",
+                  "StackName": "Dev-PipeImageStack",
+                },
+                "Name": "Deploy",
+                "RoleArn": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
+                    ],
+                  ],
+                },
+                "RunOrder": 2,
+              },
+            ],
+            "Name": "Dev",
           },
         ],
       },
@@ -194,6 +313,61 @@ Object {
                 },
               ],
             },
+            Object {
+              "Action": Array [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+              ],
+              "Effect": "Allow",
+              "Principal": Object {
+                "AWS": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
+                    ],
+                  ],
+                },
+              },
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "PipeImagePipelineArtifactsBucket6E9494A2",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "PipeImagePipelineArtifactsBucket6E9494A2",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
           ],
           "Version": "2012-10-17",
         },
@@ -212,8 +386,56 @@ Object {
         "EncryptionKey": "alias/aws/s3",
         "Environment": Object {
           "ComputeType": "BUILD_GENERAL1_SMALL",
-          "Image": "aws/codebuild/standard:6.0",
-          "ImagePullCredentialsType": "CODEBUILD",
+          "Image": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    4,
+                    Object {
+                      "Fn::Split": Array [
+                        ":",
+                        Object {
+                          "Fn::GetAtt": Array [
+                            "ContainerImageRepo25F05A71",
+                            "Arn",
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+                ".dkr.ecr.",
+                Object {
+                  "Fn::Select": Array [
+                    3,
+                    Object {
+                      "Fn::Split": Array [
+                        ":",
+                        Object {
+                          "Fn::GetAtt": Array [
+                            "ContainerImageRepo25F05A71",
+                            "Arn",
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+                ".",
+                Object {
+                  "Ref": "AWS::URLSuffix",
+                },
+                "/",
+                Object {
+                  "Ref": "ContainerImageRepo25F05A71",
+                },
+                ":latest",
+              ],
+            ],
+          },
+          "ImagePullCredentialsType": "SERVICE_ROLE",
           "PrivilegedMode": false,
           "Type": "LINUX_CONTAINER",
         },
@@ -266,6 +488,25 @@ Object {
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
+            Object {
+              "Action": Array [
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "ContainerImageRepo25F05A71",
+                  "Arn",
+                ],
+              },
+            },
+            Object {
+              "Action": "ecr:GetAuthorizationToken",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
             Object {
               "Action": Array [
                 "logs:CreateLogGroup",
@@ -540,6 +781,33 @@ Object {
                 ],
               },
             },
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":iam::",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":role/cdk-hnb659fds-deploy-role-",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    "-",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                  ],
+                ],
+              },
+            },
           ],
           "Version": "2012-10-17",
         },
@@ -585,8 +853,56 @@ Object {
         "EncryptionKey": "alias/aws/s3",
         "Environment": Object {
           "ComputeType": "BUILD_GENERAL1_SMALL",
-          "Image": "aws/codebuild/standard:6.0",
-          "ImagePullCredentialsType": "CODEBUILD",
+          "Image": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    4,
+                    Object {
+                      "Fn::Split": Array [
+                        ":",
+                        Object {
+                          "Fn::GetAtt": Array [
+                            "ContainerImageRepo25F05A71",
+                            "Arn",
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+                ".dkr.ecr.",
+                Object {
+                  "Fn::Select": Array [
+                    3,
+                    Object {
+                      "Fn::Split": Array [
+                        ":",
+                        Object {
+                          "Fn::GetAtt": Array [
+                            "ContainerImageRepo25F05A71",
+                            "Arn",
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+                ".",
+                Object {
+                  "Ref": "AWS::URLSuffix",
+                },
+                "/",
+                Object {
+                  "Ref": "ContainerImageRepo25F05A71",
+                },
+                ":latest",
+              ],
+            ],
+          },
+          "ImagePullCredentialsType": "SERVICE_ROLE",
           "PrivilegedMode": false,
           "Type": "LINUX_CONTAINER",
         },
@@ -622,6 +938,25 @@ Object {
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
+            Object {
+              "Action": Array [
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "ContainerImageRepo25F05A71",
+                  "Arn",
+                ],
+              },
+            },
+            Object {
+              "Action": "ecr:GetAuthorizationToken",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
             Object {
               "Action": Array [
                 "logs:CreateLogGroup",
