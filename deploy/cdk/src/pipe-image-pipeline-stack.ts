@@ -16,7 +16,7 @@ export class PipeImagePipelineStack extends Stack {
 
       codeBuildDefaults: {
         buildEnvironment: {
-          buildImage: LinuxBuildImage.STANDARD_6_0
+          buildImage: LinuxBuildImage.STANDARD_7_0
         },
       },
 
@@ -25,6 +25,8 @@ export class PipeImagePipelineStack extends Stack {
           authentication: SecretValue.secretsManager('github_token'),
         }),
         commands: [
+          'corepack enable',
+          'yarn --version',
           'cd deploy/cdk',
           'yarn install --frozen-lockfile',
           'yarn cdk synth',
