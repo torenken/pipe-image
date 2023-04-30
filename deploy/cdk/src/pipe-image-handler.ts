@@ -13,7 +13,7 @@ export class PipeImageHandler extends GoFunction {
   constructor(scope: Construct, id: string, props: PipeImageHandlerProps) {
     super(scope, id, {
       entry: path.join(__dirname, `../../../app/services/${props.serviceName}`),
-      functionName: `data-puddle-${props.serviceName}`,
+      functionName: `pipe-image-${props.serviceName}`,
 
       memorySize: 1024,
       logRetention: RetentionDays.THREE_MONTHS,
