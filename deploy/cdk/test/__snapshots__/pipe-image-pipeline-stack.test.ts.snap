@@ -10,14 +10,6 @@ Object {
     },
   },
   "Resources": Object {
-    "ContainerImageRepo25F05A71": Object {
-      "DeletionPolicy": "Retain",
-      "Properties": Object {
-        "RepositoryName": "custom-codebuild-image-2",
-      },
-      "Type": "AWS::ECR::Repository",
-      "UpdateReplacePolicy": "Retain",
-    },
     "PipeImagePipeline74F2FC03": Object {
       "DependsOn": Array [
         "PipeImagePipelineRoleDefaultPolicy8B68A281",
@@ -76,7 +68,7 @@ Object {
                   "Version": "1",
                 },
                 "Configuration": Object {
-                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"c6df283e1b726d5398325a398a433d821f46efe10fa198a801d90a542440f6f7\\"}]",
+                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"9368040898f204161c3b9f2402233280d0ce8839b38c4d18688af40d0360a72a\\"}]",
                   "ProjectName": Object {
                     "Ref": "PipeImagePipelineBuildSynthCdkBuildProjectDACC630B",
                   },
@@ -113,7 +105,7 @@ Object {
                   "Version": "1",
                 },
                 "Configuration": Object {
-                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"bd7bea86662e015c59ea0a0daaa988a8f5d2ffb3104a0bb6c5a532ab97fa6b05\\"}]",
+                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"3d549b493e1375624b95be02a6098fa974b206b672b781f4abaffd0e9e4b1d89\\"}]",
                   "ProjectName": Object {
                     "Ref": "PipeImagePipelineUpdatePipelineSelfMutationB9B08728",
                   },
@@ -443,56 +435,8 @@ Object {
         "EncryptionKey": "alias/aws/s3",
         "Environment": Object {
           "ComputeType": "BUILD_GENERAL1_SMALL",
-          "Image": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Fn::Select": Array [
-                    4,
-                    Object {
-                      "Fn::Split": Array [
-                        ":",
-                        Object {
-                          "Fn::GetAtt": Array [
-                            "ContainerImageRepo25F05A71",
-                            "Arn",
-                          ],
-                        },
-                      ],
-                    },
-                  ],
-                },
-                ".dkr.ecr.",
-                Object {
-                  "Fn::Select": Array [
-                    3,
-                    Object {
-                      "Fn::Split": Array [
-                        ":",
-                        Object {
-                          "Fn::GetAtt": Array [
-                            "ContainerImageRepo25F05A71",
-                            "Arn",
-                          ],
-                        },
-                      ],
-                    },
-                  ],
-                },
-                ".",
-                Object {
-                  "Ref": "AWS::URLSuffix",
-                },
-                "/",
-                Object {
-                  "Ref": "ContainerImageRepo25F05A71",
-                },
-                ":latest",
-              ],
-            ],
-          },
-          "ImagePullCredentialsType": "SERVICE_ROLE",
+          "Image": "aws/codebuild/standard:7.0",
+          "ImagePullCredentialsType": "CODEBUILD",
           "PrivilegedMode": false,
           "Type": "LINUX_CONTAINER",
         },
@@ -535,56 +479,8 @@ Object {
         "EncryptionKey": "alias/aws/s3",
         "Environment": Object {
           "ComputeType": "BUILD_GENERAL1_SMALL",
-          "Image": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Fn::Select": Array [
-                    4,
-                    Object {
-                      "Fn::Split": Array [
-                        ":",
-                        Object {
-                          "Fn::GetAtt": Array [
-                            "ContainerImageRepo25F05A71",
-                            "Arn",
-                          ],
-                        },
-                      ],
-                    },
-                  ],
-                },
-                ".dkr.ecr.",
-                Object {
-                  "Fn::Select": Array [
-                    3,
-                    Object {
-                      "Fn::Split": Array [
-                        ":",
-                        Object {
-                          "Fn::GetAtt": Array [
-                            "ContainerImageRepo25F05A71",
-                            "Arn",
-                          ],
-                        },
-                      ],
-                    },
-                  ],
-                },
-                ".",
-                Object {
-                  "Ref": "AWS::URLSuffix",
-                },
-                "/",
-                Object {
-                  "Ref": "ContainerImageRepo25F05A71",
-                },
-                ":latest",
-              ],
-            ],
-          },
-          "ImagePullCredentialsType": "SERVICE_ROLE",
+          "Image": "aws/codebuild/standard:7.0",
+          "ImagePullCredentialsType": "CODEBUILD",
           "PrivilegedMode": false,
           "Type": "LINUX_CONTAINER",
         },
@@ -734,25 +630,6 @@ Object {
             },
             Object {
               "Action": Array [
-                "ecr:BatchCheckLayerAvailability",
-                "ecr:GetDownloadUrlForLayer",
-                "ecr:BatchGetImage",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "ContainerImageRepo25F05A71",
-                  "Arn",
-                ],
-              },
-            },
-            Object {
-              "Action": "ecr:GetAuthorizationToken",
-              "Effect": "Allow",
-              "Resource": "*",
-            },
-            Object {
-              "Action": Array [
                 "s3:GetObject*",
                 "s3:GetBucket*",
                 "s3:List*",
@@ -805,57 +682,9 @@ Object {
         "EncryptionKey": "alias/aws/s3",
         "Environment": Object {
           "ComputeType": "BUILD_GENERAL1_SMALL",
-          "Image": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Fn::Select": Array [
-                    4,
-                    Object {
-                      "Fn::Split": Array [
-                        ":",
-                        Object {
-                          "Fn::GetAtt": Array [
-                            "ContainerImageRepo25F05A71",
-                            "Arn",
-                          ],
-                        },
-                      ],
-                    },
-                  ],
-                },
-                ".dkr.ecr.",
-                Object {
-                  "Fn::Select": Array [
-                    3,
-                    Object {
-                      "Fn::Split": Array [
-                        ":",
-                        Object {
-                          "Fn::GetAtt": Array [
-                            "ContainerImageRepo25F05A71",
-                            "Arn",
-                          ],
-                        },
-                      ],
-                    },
-                  ],
-                },
-                ".",
-                Object {
-                  "Ref": "AWS::URLSuffix",
-                },
-                "/",
-                Object {
-                  "Ref": "ContainerImageRepo25F05A71",
-                },
-                ":latest",
-              ],
-            ],
-          },
-          "ImagePullCredentialsType": "SERVICE_ROLE",
-          "PrivilegedMode": false,
+          "Image": "aws/codebuild/standard:7.0",
+          "ImagePullCredentialsType": "CODEBUILD",
+          "PrivilegedMode": true,
           "Type": "LINUX_CONTAINER",
         },
         "ServiceRole": Object {
@@ -868,6 +697,12 @@ Object {
           "BuildSpec": "{
   \\"version\\": \\"0.2\\",
   \\"phases\\": {
+    \\"install\\": {
+      \\"commands\\": [
+        \\"corepack enable\\",
+        \\"echo yarn version $(yarn --version), $(go version)\\"
+      ]
+    },
     \\"build\\": {
       \\"commands\\": [
         \\"cd deploy/cdk\\",
@@ -907,25 +742,6 @@ Object {
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
-            Object {
-              "Action": Array [
-                "ecr:BatchCheckLayerAvailability",
-                "ecr:GetDownloadUrlForLayer",
-                "ecr:BatchGetImage",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "ContainerImageRepo25F05A71",
-                  "Arn",
-                ],
-              },
-            },
-            Object {
-              "Action": "ecr:GetAuthorizationToken",
-              "Effect": "Allow",
-              "Resource": "*",
-            },
             Object {
               "Action": Array [
                 "logs:CreateLogGroup",
@@ -1300,56 +1116,8 @@ Object {
         "EncryptionKey": "alias/aws/s3",
         "Environment": Object {
           "ComputeType": "BUILD_GENERAL1_SMALL",
-          "Image": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Fn::Select": Array [
-                    4,
-                    Object {
-                      "Fn::Split": Array [
-                        ":",
-                        Object {
-                          "Fn::GetAtt": Array [
-                            "ContainerImageRepo25F05A71",
-                            "Arn",
-                          ],
-                        },
-                      ],
-                    },
-                  ],
-                },
-                ".dkr.ecr.",
-                Object {
-                  "Fn::Select": Array [
-                    3,
-                    Object {
-                      "Fn::Split": Array [
-                        ":",
-                        Object {
-                          "Fn::GetAtt": Array [
-                            "ContainerImageRepo25F05A71",
-                            "Arn",
-                          ],
-                        },
-                      ],
-                    },
-                  ],
-                },
-                ".",
-                Object {
-                  "Ref": "AWS::URLSuffix",
-                },
-                "/",
-                Object {
-                  "Ref": "ContainerImageRepo25F05A71",
-                },
-                ":latest",
-              ],
-            ],
-          },
-          "ImagePullCredentialsType": "SERVICE_ROLE",
+          "Image": "aws/codebuild/standard:7.0",
+          "ImagePullCredentialsType": "CODEBUILD",
           "PrivilegedMode": false,
           "Type": "LINUX_CONTAINER",
         },
@@ -1385,25 +1153,6 @@ Object {
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
-            Object {
-              "Action": Array [
-                "ecr:BatchCheckLayerAvailability",
-                "ecr:GetDownloadUrlForLayer",
-                "ecr:BatchGetImage",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "ContainerImageRepo25F05A71",
-                  "Arn",
-                ],
-              },
-            },
-            Object {
-              "Action": "ecr:GetAuthorizationToken",
-              "Effect": "Allow",
-              "Resource": "*",
-            },
             Object {
               "Action": Array [
                 "logs:CreateLogGroup",

@@ -16,7 +16,7 @@ export class PipeImagePipelineStack extends Stack {
 
       codeBuildDefaults: {
         buildEnvironment: {
-          buildImage: LinuxBuildImage.STANDARD_7_0
+          buildImage: LinuxBuildImage.STANDARD_7_0,
         },
       },
 
@@ -24,9 +24,11 @@ export class PipeImagePipelineStack extends Stack {
         input: CodePipelineSource.gitHub('torenken/pipe-image', 'main', {
           authentication: SecretValue.secretsManager('github_token'),
         }),
-        commands: [
+        installCommands: [
           'corepack enable',
-          'yarn --version',
+          'echo yarn version $(yarn --version), $(go version)',
+        ],
+        commands: [
           'cd deploy/cdk',
           'yarn install --frozen-lockfile',
           'yarn cdk synth',
