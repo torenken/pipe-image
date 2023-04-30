@@ -1,6 +1,5 @@
 import { SecretValue, Stack, StackProps } from 'aws-cdk-lib';
 import { LinuxBuildImage } from 'aws-cdk-lib/aws-codebuild';
-import { Repository } from 'aws-cdk-lib/aws-ecr';
 import { CodePipeline, CodePipelineSource, ShellStep } from 'aws-cdk-lib/pipelines';
 import { Construct } from 'constructs';
 import { PipeImageAppStage } from './pipe-image-app-stage';
@@ -10,10 +9,6 @@ export class PipeImagePipelineStack extends Stack {
   constructor(scope: Construct, id: string, props: StackProps) {
     super(scope, id, props);
 
-    const containerImageRepo = new Repository(this, 'ContainerImageRepo', {
-      repositoryName: 'custom-codebuild-image-2',
-    });
-
     const pipeline = new CodePipeline(this, 'PipeImagePipeline', {
       dockerEnabledForSynth: true,
       pipelineName: 'PipeImagePipeline',
@@ -21,7 +16,7 @@ export class PipeImagePipelineStack extends Stack {
 
       codeBuildDefaults: {
         buildEnvironment: {
-          buildImage: LinuxBuildImage.fromEcrRepository(containerImageRepo),
+          buildImage: LinuxBuildImage.STANDARD_6_0
         },
       },
 
