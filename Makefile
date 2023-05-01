@@ -68,9 +68,8 @@ deps-upgrade:
 ci-install: ci-enable-yarn ci-show-version
 
 ci-enable-yarn:
-	echo "enable yarn"
 	@corepack enable
 
 ci-show-version:
-	@echo "build environment"
+	@echo "build environment:"
 	@echo "node version: `node --version`, yarn version: `yarn --version`, `go version`"
