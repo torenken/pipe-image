@@ -25,12 +25,12 @@ export class PipeImagePipelineStack extends Stack {
           authentication: SecretValue.secretsManager('github_token'),
         }),
         installCommands: [
-          'corepack enable',
-          'echo yarn version $(yarn --version), $(go version)',
+          'make ci-install',
         ],
         commands: [
           'cd deploy/cdk',
           'yarn install --frozen-lockfile',
+          'yarn audit:check',
           'yarn cdk synth',
         ],
         primaryOutputDirectory: 'deploy/cdk/cdk.out',

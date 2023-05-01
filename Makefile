@@ -9,13 +9,6 @@ all: build
 dev-gotooling:
 	go install golang.org/x/vuln/cmd/govulncheck@latest
 
-# =====
-# Building tooling
-
-dev-tooling:
-	go build -o ./build/datagen ./app/tooling/datagen/main.go
-	go build -o ./build/data-export-dl ./app/tooling/data-export-dl/main.go
-
 # ==============================================================================
 # Building lambdas
 
@@ -41,7 +34,7 @@ deploy-%:
 	aws lambda update-function-code --function-name ${NAME}-$* --zip-file fileb://${BUILD_DIR}/$*/bootstrap.zip --no-cli-pager --profile ${AWS_PROFILE}
 
 # ==============================================================================
-# Running from within aws
+# Deploy lambda via aws cli
 
 $(ALL_LAMBDAS):
 	$(MAKE) build-$@
@@ -57,7 +50,7 @@ test:
 	govulncheck ./...
 
 # ==============================================================================
-# Modules support
+# Go-Modules support
 
 tidy:
 	go mod tidy
@@ -68,3 +61,16 @@ deps-list:
 deps-upgrade:
 	go get -u -v ./...
 	go mod tidy
+
+# ==============================================================================
+# CI support
+
+ci-install: ci-enable-yarn ci-show-version
+
+ci-enable-yarn:
+	echo "enable yarn"
+	@corepack enable
+
+ci-show-version:
+	@echo "build environment"
+	@echo "node version: `node --version`, yarn version: `yarn --version`, `go version`"
