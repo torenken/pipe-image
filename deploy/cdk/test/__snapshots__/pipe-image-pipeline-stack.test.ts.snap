@@ -68,7 +68,7 @@ Object {
                   "Version": "1",
                 },
                 "Configuration": Object {
-                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"9368040898f204161c3b9f2402233280d0ce8839b38c4d18688af40d0360a72a\\"}]",
+                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"1aec4423e4a219574b0e042a4edded655a13013857b6ffafd662d1068e9fd71e\\"}]",
                   "ProjectName": Object {
                     "Ref": "PipeImagePipelineBuildSynthCdkBuildProjectDACC630B",
                   },
@@ -699,14 +699,15 @@ Object {
   \\"phases\\": {
     \\"install\\": {
       \\"commands\\": [
-        \\"corepack enable\\",
-        \\"echo yarn version $(yarn --version), $(go version)\\"
+        \\"make ci-install\\"
       ]
     },
     \\"build\\": {
       \\"commands\\": [
         \\"cd deploy/cdk\\",
         \\"yarn install --frozen-lockfile\\",
+        \\"yarn audit:check\\",
+        \\"yarn ci:test\\",
         \\"yarn cdk synth\\"
       ]
     }

@@ -31,6 +31,7 @@ export class PipeImagePipelineStack extends Stack {
           'cd deploy/cdk',
           'yarn install --frozen-lockfile',
           'yarn audit:check',
+          'yarn ci:test',
           'yarn cdk synth',
         ],
         primaryOutputDirectory: 'deploy/cdk/cdk.out',
